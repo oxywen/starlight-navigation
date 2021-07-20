@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/images/switcher.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/style/style.css">
+    <script src="assets/js/jquery-3.1.1.min.js"></script>
+    <title>Navigation</title>
+</head>
+
+<body>
+    <!--Navigation-->
+    <div class="header-container">
+        <div class="header-left">
+            <div class="menu-icon icon">
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+            <div class="header-btn switch-engine-btn" title="切换其他搜索引擎">
+                <div class="engine-icon"></div>
+                <div class="engine-name apple-font">Baidu</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="bg-info">
+                <div class="more-icon icon"></div>
+                <di class="bg-info-card">
+                    <div class="card-wrapper">
+                        <div class="options">
+                            <div class="icon-btns">
+                                <div class="switcher-small">
+                                    <input id="bg-mode-switcher" type="checkbox" class="switch switch-small"
+                                        title="默认为Bing每日壁纸，随机壁纸将会切换为随机的Bing历史壁纸" />
+                                    <span>随机壁纸</span>
+                                </div>
+                                <div class="switcher-small">
+                                    <input id="lock-bg-switcher" type="checkbox" class="switch switch-small"
+                                        title="锁定当前壁纸，这将会使得切换背景功能失效" />
+                                    <span>锁定</span>
+                                </div>
+                            </div>
+                            <div class="icon-btns right-btn">
+                                <div class="download-bg right-btn" title="下载今日美图,仅限用作桌面壁纸">
+                                    <svg class="download-icon" x="0px" y="0px" viewBox="0 0 22 22"
+                                        enable-background="new 0 0 22 22" aria-hidden="true" role="presentation">
+                                        <path
+                                            d="M17.842 11.483l-6.671 6.725-6.671-6.725.967-.967 5.017 5.049v-15.565h1.375v15.565l5.017-5.049.966.967zm-12.859 10.517v-1.375h12.375v1.375h-12.375z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr"></div>
+                        <div class="image-location">
+                            <a id="image-location-link" class="image-location-link apple-font" href="#">Milky Way over
+                                the Tagus river,
+                                Monfragüe National Park, Spain</a>
+                        </div>
+                        <div class="image-copyright apple-font">© Miguel Angel Muñoz Ruiz/Cavan Images</div>
+                    </div>
+                </di>
+            </div>
+        </div>
+        <div class="bg-switcher">
+            <div class="vertical-line"></div>
+            <div class="bg-switcher-btn" src="/assets/images/switcher.png" title="切换背景壁纸"></div>
+        </div>
+    </div>
+    <div class="main-container">
+        <div class="nav-form-container">
+            <div id="form-warpper" class="form-warpper">
+                <div class="main-form">
+                    <input type="text" id="main-input" maxlength="100">
+                    <button type="button" id="search-btn"><svg class="search-icon" viewBox="0 0 24 24" width="24"
+                            height="24">
+                            <path
+                                d="M17.068 15.58a8.377 8.377 0 0 0 1.774-5.159 8.421 8.421 0 1 0-8.42 8.421 8.38 8.38 0 0 0 5.158-1.774l3.879 3.88c.957.573 2.131-.464 1.488-1.49l-3.879-3.878zm-6.647 1.157a6.323 6.323 0 0 1-6.316-6.316 6.323 6.323 0 0 1 6.316-6.316 6.323 6.323 0 0 1 6.316 6.316 6.323 6.323 0 0 1-6.316 6.316z"
+                                fill-rule="evenodd"></path>
+                        </svg></button>
+                </div>
+                <div class="input-under-line">
+                    <div class="line"></div>
+                </div>
+                <div id="candidate-list-container" class="candidate-list-container">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="footer-wrapper">
+            <div class="footer-left">
+                <a class="footer-item" href="#">©2021 OXYWEN.CN</a>
+                <a class="footer-item" href="#">鄂ICP备2021004216号</a>
+            </div>
+            <div class="footer-right">
+                <a class="footer-item" href="/about.html#services-agreement">使用条款</a>
+                <a class="footer-item" href="/about.html#privacy-statement">隐私声明</a>
+                <a class="footer-item" href="/about.html#feedback">意见反馈</a>
+                <a class="footer-item" href="/about.html#about-me">关于我们</a>
+            </div>
+        </div>
+    </div>
+    <div id="menu-drawer" class="drawer left-drawer hidden-drawer">
+        <div class="drawer-mask"></div>
+        <div class="drawer-content">
+            <div class="drawer-wrapper-body">
+                <div class="drawer-header">
+                    <div class="drawer-title apple-font">NAV.OXYWEN.CN</div>
+                </div>
+                <div class="drawer-body">
+                    <div class="menu-item link-item">
+                        <a href="#">OXYWEN.CN</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/index.js"></script>
+</body>
+
+</html>
