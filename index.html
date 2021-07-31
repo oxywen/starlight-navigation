@@ -20,6 +20,13 @@
                 <i></i>
                 <i></i>
             </div>
+            <div class="hidden-search-btn" title="显示/隐藏搜索框">
+                <svg class="w-icon search-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M17.068 15.58a8.377 8.377 0 0 0 1.774-5.159 8.421 8.421 0 1 0-8.42 8.421 8.38 8.38 0 0 0 5.158-1.774l3.879 3.88c.957.573 2.131-.464 1.488-1.49l-3.879-3.878zm-6.647 1.157a6.323 6.323 0 0 1-6.316-6.316 6.323 6.323 0 0 1 6.316-6.316 6.323 6.323 0 0 1 6.316 6.316 6.323 6.323 0 0 1-6.316 6.316z"
+                        fill-rule="evenodd"></path>
+                </svg>
+            </div>
             <div class="header-btn switch-engine-btn" title="切换其他搜索引擎">
                 <div class="engine-icon"></div>
                 <div class="engine-name apple-font">Baidu</div>
@@ -30,28 +37,55 @@
                 <div class="more-icon icon"></div>
                 <di class="bg-info-card">
                     <div class="card-wrapper">
-                        <div class="options">
-                            <div class="icon-btns">
-                                <div class="switcher-small">
-                                    <input id="bg-mode-switcher" type="checkbox" class="switch switch-small"
-                                        title="默认为Bing每日壁纸，随机壁纸将会切换为随机的Bing历史壁纸" />
-                                    <span>随机壁纸</span>
+                        <div class="bg-op-warpper">
+                            <div class="op-main">
+                                <div class="icon-btns">
+                                    <div class="switcher-small">
+                                        <input id="lock-bg-switcher" type="checkbox" class="switch switch-small"
+                                            title="锁定当前壁纸，这将会使得切换背景功能失效" />
+                                        <span>锁定</span>
+                                    </div>
                                 </div>
-                                <div class="switcher-small">
-                                    <input id="lock-bg-switcher" type="checkbox" class="switch switch-small"
-                                        title="锁定当前壁纸，这将会使得切换背景功能失效" />
-                                    <span>锁定</span>
+                                <div class="icon-btns right-btn">
+                                    <div class="show-more-op">
+                                        <div class="icon-direction direction-down">
+                                        </div>
+                                    </div>
+                                    <div class="download-bg" title="下载今日美图,仅限用作桌面壁纸">
+                                        <svg class="download-icon" x="0px" y="0px" viewBox="0 0 22 22"
+                                            enable-background="new 0 0 22 22" aria-hidden="true" role="presentation">
+                                            <path
+                                                d="M17.842 11.483l-6.671 6.725-6.671-6.725.967-.967 5.017 5.049v-15.565h1.375v15.565l5.017-5.049.966.967zm-12.859 10.517v-1.375h12.375v1.375h-12.375z">
+                                            </path>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="icon-btns right-btn">
-                                <div class="download-bg right-btn" title="下载今日美图,仅限用作桌面壁纸">
-                                    <svg class="download-icon" x="0px" y="0px" viewBox="0 0 22 22"
-                                        enable-background="new 0 0 22 22" aria-hidden="true" role="presentation">
-                                        <path
-                                            d="M17.842 11.483l-6.671 6.725-6.671-6.725.967-.967 5.017 5.049v-15.565h1.375v15.565l5.017-5.049.966.967zm-12.859 10.517v-1.375h12.375v1.375h-12.375z">
-                                        </path>
-                                    </svg>
+                            {{name}}
+                            <div class="op-more h-hidden">
+                                <div class="icon-btns">
+                                    <div class="switcher-small">
+                                        <input id="bg-mode-switcher" type="checkbox" class="switch switch-small"
+                                            title="默认为Bing每日壁纸，随机壁纸将会切换为随机的Bing历史壁纸" />
+                                        <span>随机</span>
+                                    </div>
                                 </div>
+                                <div class="right-btn">
+                                    <span>类别:</span><span class="type-select-btn link-btn">原神</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="type-select-wrapper" class="type-select-wrapper h-hidden">
+                            <div class="select-list">
+                                <div class="select-item" vlaue="scenery">风景</div>
+                                <div class="select-item" value="girl">写真</div>
+                                <div class="select-item" value="comic">动漫</div>
+                                <div class="select-item" value="genshen">原神</div>
+                                <div class="select-item" value="rknights">明日方舟</div>
+                                <div class="select-item" value="blhx">碧蓝航线</div>
+                                <div class="select-item" value="pet">萌宠</div>
+                                <div class="select-item" value="plant">植物花卉</div>
+                                <div class="select-item" value="bing-history">Bing历史</div>
                             </div>
                         </div>
                         <div class="hr"></div>
@@ -97,9 +131,13 @@
                 <a class="footer-item" href="#">鄂ICP备2021004216号</a>
             </div>
             <div class="footer-right">
-                <a class="footer-item" href="/about.html#services-agreement">使用条款</a>
+                <a class="footer-item" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+                    target="_blank">
+                    <span class="upyun-icon"></span>提供CDN加速服务
+                </a>
+                <!-- <a class="footer-item" href="/about.html#services-agreement">使用条款</a>
                 <a class="footer-item" href="/about.html#privacy-statement">隐私声明</a>
-                <a class="footer-item" href="/about.html#feedback">意见反馈</a>
+                <a class="footer-item" href="/about.html#feedback">意见反馈</a> -->
                 <a class="footer-item" href="/about.html#about-me">关于我们</a>
             </div>
         </div>
@@ -115,6 +153,13 @@
                     <div class="menu-item link-item">
                         <a href="#">OXYWEN.CN</a>
                     </div>
+                </div>
+                <div class="drawer-footer">
+                    <a class="upyun-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+                        target="_blank">
+                        <img src="/assets/images/upyun-blue.png" alt="">
+                        <span>提供CDN加速服务</span>
+                    </a>
                 </div>
             </div>
         </div>

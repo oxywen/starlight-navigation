@@ -11,7 +11,8 @@ html,body{
 body{
     transition: all .5s;
     background-color: rgba(0,0,0,.45);
-    background-image: url('https://www.bing.com/th?id=OHR.Ortygia_ROW5039569937_1920x1080.jpg&rf=LaDigue_1920x1080.jpg');
+    /*background-image: url('');*/
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -56,6 +57,25 @@ body{
     font-size: 14px;
 }
 
+.hidden-search-btn{
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+    margin-left: 12px;
+    overflow: visible;
+}
+.hidden-search-btn svg{
+    width: 20px;
+    height: 20px;
+    margin-left: -2px;
+    margin-top: -1px;
+}
+
+.w-icon{
+    fill:currentColor;
+    color: #ffffff;
+}
+
 .header-right{
     margin-left: auto;
     margin-right: 8px;
@@ -69,7 +89,13 @@ body{
     justify-content: center;
     top: 0;
     right: 48px;
+    overflow: hidden;
+    transition: all .4s;
 }
+.bg-switcher-hidden{
+    margin-top: -150px;
+}
+
 .bg-switcher>.vertical-line{
     margin: 0;
     width: 2px;
@@ -97,15 +123,25 @@ body{
 
 .nav-form-container{
     width: 550px;
+    transition: width .4s ease;
 }
 
 .form-warpper{
+    width: 100%;
     position: relative;
     border-radius: 4px;
     margin-top: 220px;
     height: auto;
     transition: all .3s;
     z-index: 10;
+}
+
+.s-hidden{
+    width: 0;
+    overflow: hidden;
+}
+.s-hidden svg{
+    opacity: 0;
 }
 
 .input-hover,.form-warpper.input-focus{
@@ -144,6 +180,9 @@ body{
     cursor: pointer;
 }
 
+.main-form .search-icon{
+    transition: opacity .3s;
+}
 
 .input-under-line{
     height: 0px;
@@ -240,6 +279,15 @@ body{
     text-decoration: underline;
 }
 
+.upyun-icon{
+    display: inline-block;
+    vertical-align: top;
+    width: 32px;
+    height: 16px;
+    background-image: url("/assets/images/upyun.png");
+    background-size: 100%;
+}
+
 .menu-icon{
     width: 20px;
     height: 16px;
@@ -327,6 +375,8 @@ body{
 .drawer-content .drawer-wrapper-body{
     height: 100%;
     overflow: auto;
+    display: flex;
+    flex-flow: column;
 }
 .drawer-content .drawer-header{
     position: relative;
@@ -346,6 +396,31 @@ body{
 .drawer-content .drawer-body{
     display: flex;
     flex-flow: column;
+    flex: 1;
+}
+
+.drawer-footer{
+    height: 30px;
+}
+
+.upyun-link{
+    height: 100%;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+.upyun-link{
+    text-decoration: none;
+}
+.upyun-link img{
+    height: 100%;
+}
+.upyun-link span{
+    font-size: 14px;
+    color: #cccccc;
+    line-height: 30px;
+    margin-left: 2px;
 }
 /*子菜单相关*/
 .drawer-body .menu-item{
@@ -412,23 +487,31 @@ body{
     width: 240px;
     /*height: 120px;*/
     padding: 16px;
+    border-radius: inherit;
 }
-.bg-info .options{
+.bg-info .bg-op-warpper{
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
 }
-.bg-info .options>div{
+.bg-info .bg-op-warpper>div{
     display: flex;
 }
+.bg-info .bg-op-warpper>div+div{
+    margin-top: 6px;
+}
+
 .icon-btns{
     display: flex;
     flex-flow: row;
     justify-content: center;
 }
-.icon-btns>div+div{
-    margin-left: 8px;
+.icon-btns>div{
+    cursor: pointer;
 }
-.bg-info .options .right-btn{
+.icon-btns>div+div{
+    margin-left: 6px;
+}
+.bg-info .bg-op-warpper .right-btn{
     margin-left: auto;
 }
 .bg-info svg{
@@ -439,8 +522,31 @@ body{
 .bg-info .download-bg{
     width: 16px;
     height: 16px;
-    cursor: pointer;
 }
+
+.show-more-op{
+    position: relative;
+    height: 18px;
+    width: 18px;
+}
+
+.op-more{
+    font-size: 12px;
+    color: #ffffff;
+    overflow: hidden;
+    height: 18px;
+    transition: height .4s,margin-top .4s ease-in-out;
+}
+
+.h-hidden{
+    height: 0!important;
+    margin-top: 0 !important;
+}
+
+.w-hidden{
+    width: 0;
+}
+
 .bg-info .hr{
     margin: .5rem 0;
     background-color: #fff;
@@ -529,4 +635,79 @@ body{
 .switch-small::after {
     width: 14px;
     height: 14px;
+}
+
+/*上下箭头图标*/
+.icon-direction{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+.icon-direction::after{
+    border-radius: 4px;
+    border-left: 4px solid rgba(255,255,255,.8);
+    border-bottom: 4px solid rgba(255,255,255,.8);
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    content: '';
+    position: absolute;
+}
+
+.direction-down::after{
+    transform: scale(.55) translateY(-25%) rotate(-45deg);
+}
+.direction-up::after{
+    transform: scale(.55) translateY(25%) rotate(135deg);
+}
+
+.link-btn{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/*类型选择框*/
+.type-select-wrapper{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    border-radius: inherit;
+    background-color: rgba(0, 0, 0, .8);
+    overflow: auto;
+    transition: height .3s;
+}
+
+.type-select-wrapper::-webkit-scrollbar{
+    width: 2px;
+    background-color: transparent;
+  }
+
+.type-select-wrapper::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+  }
+
+.type-select-wrapper::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+.select-list{
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+.type-select-wrapper .select-item{
+    height: 32px;
+    line-height: 32px;
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+.type-select-wrapper .select-item:hover{
+    background-color: rgba(243, 243, 243,.2);
 }

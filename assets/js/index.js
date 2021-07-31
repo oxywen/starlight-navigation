@@ -1,13 +1,19 @@
-const options=loadConfig()
+const WALLPAPER_SERVER_URL = 'http://localhost:8806'
+const OTHER_RANDOM_WALLPAPER_SERVER_URL = 'https://api.yimian.xyz/img?type=wallpaper&t='
+
+//配置信息
+let options = loadConfig();
+if (!options.bgImageURL) {
+    getStarlightWallpaper()
+}
 const formWrapper = $('#form-warpper')
 const candidateContainer = $('#candidate-list-container')
 const mainInput = $('#main-input')
-let searchEngine = 'Baidu'
 let activeItemIndex = -1
 let inputWord = ''
 
 $(() => {
-    
+    updateBgImage()
     mainInput.focus()
     mainInput.on('mouseover', (e) => {
         formWrapper.addClass('input-hover')
@@ -87,12 +93,22 @@ $(() => {
         formWrapper.removeClass('active-input')
         goSearch(wd)
     })
+    /**
+     * 搜索框的隐藏和显示
+     */
+    $('.hidden-search-btn').on('click', (e) => {
+        if (formWrapper.hasClass('s-hidden')) {
+            formWrapper.removeClass('s-hidden')
+        } else {
+            formWrapper.addClass('s-hidden')
+        }
+    })
     $('.bg-switcher-btn').on('click', (e) => {
         $('.bg-switcher .vertical-line').css('height', '128px')
         setTimeout(() => {
             $('.bg-switcher .vertical-line').css('height', '100px')
         }, 300)
-        randomBg()
+        switchBgImage()
     })
     $('.menu-icon').on('click', (e) => {
         $('#menu-drawer').removeClass('hidden-drawer')
@@ -102,37 +118,99 @@ $(() => {
     })
     $('.switch-engine-btn').on('click', (e) => {
         let imgUrl = ''
-        switch (searchEngine) {
+        let nextEngine = ''
+        switch (options.engine) {
             case 'Baidu':
-                searchEngine = 'Google'
+                nextEngine = 'Google'
                 imgUrl = 'url("/assets/images/google.ico")'
                 break
             case 'Google':
-                searchEngine = 'Bing'
+                nextEngine = 'Bing'
                 imgUrl = 'url("/assets/images/bing.ico")'
                 break
             case 'Bing':
-                searchEngine = 'Baidu'
+                nextEngine = 'Baidu'
                 imgUrl = 'url("/assets/images/baidu.ico")'
                 break
         }
+        setStorageItem('engine', nextEngine)
         $(e.currentTarget).find('.engine-icon').css('background-image', imgUrl)
-        $(e.currentTarget).find('.engine-name').text(searchEngine)
+        $(e.currentTarget).find('.engine-name').text(nextEngine)
+    })
+    $('.show-more-op').on('click', (e) => {
+        if ($(e.currentTarget.firstElementChild).hasClass('direction-down')) {
+            e.currentTarget.firstElementChild.classList.remove('direction-down')
+            e.currentTarget.firstElementChild.classList.add('direction-up')
+            $('.op-more').removeClass('h-hidden')
+        } else {
+            e.currentTarget.firstElementChild.classList.remove('direction-up')
+            e.currentTarget.firstElementChild.classList.add('direction-down')
+            $('.op-more').addClass('h-hidden')
+        }
+    })
+    $('.type-select-btn').on('click', (e) => {
+        $('.type-select-wrapper').removeClass('h-hidden')
+    })
+    $('.type-select-wrapper').on('click', (e) => {
+        e.currentTarget.classList.add('h-hidden')
+        const typ = e.target.getAttribute("value")
+        const text = e.target.innerText
+        options.randomType = typ
+        $('.type-select-btn').text(text)
+    })
+
+    $('#lock-bg-switcher').on('change', (e) => {
+        let checked = e.target.checked
+        if (checked) {
+            $('.bg-switcher').addClass('bg-switcher-hidden')
+        } else {
+            $('.bg-switcher').removeClass('bg-switcher-hidden')
+        }
     })
 })
 
 /**
  * 从本地存储中加载配置
  */
-function loadConfig(){
-    const options = {}
-    options.engine = this.sessionStorage.getItem('engine')===null? 'baidu': this.sessionStorage.getItem('engine')
-    options.randomBg=this.localStorage.getItem('randomBg')==null?'':this.localStorage.getItem('randomBg')
-    options.bingImages = loadTodayBingBg()
-    return options
+function loadConfig() {
+    return {
+        engine: loadStorageItem('engine', 'Baidu'),
+        isLock: loadStorageItem('isLock', false),
+        isRandom: loadStorageItem('isRandom', false),
+        randomType: loadStorageItem('randomType', 'scenery'),
+        bgImageURL: loadStorageItem('bgImageURL', ''),
+        bgImageLocation: loadStorageItem('bgImageLocation', ''),
+        bgImageCopyright: loadStorageItem('bgImageCopyright', '©2021 NAV.OXYWEN.CN')
+    }
 }
 
-function loadTodayBingBg(){
+function setStorageItem(key, value, isSessionStorage) {
+    if (value == null || value == undefined) {
+        return
+    }
+    let storage = isSessionStorage ? this.sessionStorage : localStorage
+    storage.setItem(key, value)
+    //更新本地的
+    options[key] = value
+}
+
+/**
+ * 
+ * @param {key} key 
+ * @param {当值不存在的时候返回的默认值} defaultValue 
+ * @param {是否是sessionStorage，默认不是} isSessionStorage 
+ * @returns 
+ */
+function loadStorageItem(key, defaultValue, isSessionStorage) {
+    let storage = isSessionStorage ? this.sessionStorage : localStorage
+    let value = storage.getItem(key)
+    if (value == null || value == undefined) {
+        return defaultValue
+    }
+    return value
+}
+
+function loadTodayBingBg() {
     const URL = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=zh-CN'
 
 }
@@ -164,20 +242,20 @@ function switchCandidateActiveItem(step) {
  * 获取候选词
  */
 function getCandidateWords(key) {
-    switch (searchEngine) {
+    switch (options.engine) {
         case 'Baidu':
-            getBaiduCandidate(key,renderCandidateItems)
+            getBaiduCandidate(key, renderCandidateItems)
             break
         case 'Google':
-            getGoogleCandidate(key,renderCandidateItems)
+            getGoogleCandidate(key, renderCandidateItems)
             break
         case 'Bing':
-            getBingCandidate(key,renderCandidateItems)
+            getBingCandidate(key, renderCandidateItems)
             break
     }
 }
 
-function getBaiduCandidate(key,render) {
+function getBaiduCandidate(key, render) {
     $.ajax({
         url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
         type: 'GET',
@@ -192,9 +270,9 @@ function getBaiduCandidate(key,render) {
     })
 }
 
-function getGoogleCandidate(key,render) {
+function getGoogleCandidate(key, render) {
     $.ajax({
-        url: "http://suggestqueries.google.com/complete/search",
+        url: "https://suggestqueries.google.com/complete/search",
         type: "GET",
         data: {
             client: "youtube",
@@ -205,14 +283,14 @@ function getGoogleCandidate(key,render) {
     }).done((response) => {
         const array = response[1];
         const datas = []
-        for(let i=0,len=array.length;i<len;i++){
+        for (let i = 0, len = array.length; i < len; i++) {
             datas.push(array[i][0])
         }
         render(datas)
     })
 }
 
-function getBingCandidate(key,render) {
+function getBingCandidate(key, render) {
 
 }
 
@@ -244,22 +322,55 @@ function goSearch(wd) {
         return
     }
     let url = ""
-    switch (searchEngine) {
+    switch (options.engine) {
         case 'Baidu':
-            url='https://www.baidu.com/s?ie=utf-8&tn=baidu&wd=' + wd
+            url = 'https://www.baidu.com/s?ie=utf-8&tn=baidu&wd=' + wd
             break
         case 'Google':
-            url='https://www.google.com/search?q='+wd+'&source=hp&sclient=gws-wiz'
+            url = 'https://www.google.com/search?q=' + wd + '&source=hp&sclient=gws-wiz'
             break
         case 'Bing':
-            url='https://www.baidu.com/s?ie=utf-8&tn=baidu&wd=' + wd
+            // todo
+            url = 'https://www.baidu.com/s?ie=utf-8&tn=baidu&wd=' + wd
             break
     }
     window.location.href = url
 }
 
-function randomBg() {
-    let url = 'https://api.yimian.xyz/img?type=wallpaper&t=' + new Date().getTime()
+function switchBgImage() {
+    // let url = 'https://api.yimian.xyz/img?type=wallpaper&t=' + new Date().getTime()
     //let url= 'https://api.yimian.xyz/img?type=wallpaper'
-    $('body').css('background-image', 'url(' + url + ')')
+    getStarlightWallpaper()
+    updateBgImage()
+    // $('body').css('background-image', 'url(' + url + ')')
+}
+
+function getStarlightWallpaper(t) {
+    let uri = '/api/v1/rand'
+    if (t != null && t != undefined) {
+        uri = uri + '/' + t
+    }
+    uri += '?t=' + new Date().getTime()
+    let url = WALLPAPER_SERVER_URL + uri
+    $.ajax({
+        url: url,
+        type: "GET",
+        crossDomain: true,
+        dataType: "json",
+        success: (res) => {
+            if (res.code == 200) {
+                setStorageItem('bgImageURL', WALLPAPER_SERVER_URL + res.data)
+            } else {
+                console.log(res)
+            }
+        },
+        error: (e) => {
+            console.log(res)
+        }
+    })
+}
+
+
+function updateBgImage() {
+    $('body').css('background-image', 'url("' + options.bgImageURL + '")')
 }
